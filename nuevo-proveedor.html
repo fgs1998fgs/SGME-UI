@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar proveedor · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html" class="activo" aria-current="page">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina" id="titulo">Registrar proveedor</h1>
+    <p class="codigo-rf">RF-34 · RF-35</p>
+
+    <p class="aviso aviso-exito" id="exito" role="alert" tabindex="-1" hidden>
+      El proveedor quedó registrado correctamente.
+    </p>
+
+    <form class="formulario" id="frm-proveedor" novalidate>
+      <div class="campo" id="campo-nit">
+        <label for="nit">NIT
+          <span class="ayuda">Con guion y dígito de verificación, por ejemplo 900123456-1</span>
+        </label>
+        <input type="text" id="nit" name="nit">
+        <p class="error" aria-live="polite" id="error-nit"></p>
+      </div>
+
+      <div class="campo" id="campo-razon">
+        <label for="razon">Razón social</label>
+        <input type="text" id="razon" name="razon">
+        <p class="error" aria-live="polite" id="error-razon"></p>
+      </div>
+
+      <div class="campo" id="campo-contacto">
+        <label for="contacto">Persona de contacto
+          <span class="ayuda">Opcional</span>
+        </label>
+        <input type="text" id="contacto" name="contacto">
+        <p class="error" aria-live="polite" id="error-contacto"></p>
+      </div>
+
+      <div class="campo" id="campo-telefono">
+        <label for="telefono">Teléfono
+          <span class="ayuda">Opcional. Solo dígitos y espacios</span>
+        </label>
+        <input type="tel" id="telefono" name="telefono">
+        <p class="error" aria-live="polite" id="error-telefono"></p>
+      </div>
+
+      <div class="campo campo-casilla">
+        <input type="checkbox" id="activo" name="activo" checked>
+        <label for="activo">Proveedor activo</label>
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn" id="btn-guardar">Guardar proveedor</button>
+        <a class="btn btn-sec" href="proveedores.html">Cancelar</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // Proveedores ficticios. Igual que la pantalla de productos, esta sirve
+    // para registrar (RF-34) y para editar (RF-35): lo decide el parámetro
+    // «nit» de la dirección.
+    const PROVEEDORES = {
+      '900123456-1': { razon: 'Lácteos del Norte', contacto: 'Carolina Ruiz', telefono: '310 555 1122', activo: true },
+      '901987654-3': { razon: 'Distribuidora El Trigal', contacto: 'Jorge Medina', telefono: '311 555 3344', activo: true },
+      '830456789-2': { razon: 'Aseo Total S.A.S.', contacto: 'Patricia Lozano', telefono: '312 555 5566', activo: true },
+      '811222333-4': { razon: 'Bebidas La Esquina', contacto: 'Andrés Parra', telefono: '313 555 7788', activo: false }
+    };
+
+    const frm = document.getElementById('frm-proveedor');
+    const exito = document.getElementById('exito');
+
+    const editando = new URLSearchParams(window.location.search).get('nit') || '';
+
+    if (editando && PROVEEDORES[editando]) {
+      const p = PROVEEDORES[editando];
+      document.getElementById('titulo').textContent = 'Editar proveedor';
+      document.title = 'Editar proveedor · SGME';
+      document.getElementById('btn-guardar').textContent = 'Guardar cambios';
+      exito.textContent = 'Los cambios del proveedor quedaron guardados.';
+
+      document.getElementById('nit').value = editando;
+      document.getElementById('razon').value = p.razon;
+      document.getElementById('contacto').value = p.contacto;
+      document.getElementById('telefono').value = p.telefono;
+      document.getElementById('activo').checked = p.activo;
+    } else if (editando) {
+      document.getElementById('titulo').textContent = 'Proveedor no encontrado';
+      exito.className = 'aviso aviso-peligro';
+      exito.textContent = 'No existe ningún proveedor con el NIT ' + editando
+        + '. Puede registrarlo como nuevo.';
+      exito.hidden = false;
+    }
+
+    function marcar(idCampo, idError, mensaje) {
+      document.getElementById(idCampo).classList.toggle('con-error', mensaje !== '');
+      document.getElementById(idError).textContent = mensaje;
+      return mensaje === '';
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      exito.hidden = true;
+
+      const nit = document.getElementById('nit').value.trim();
+      const razon = document.getElementById('razon').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+
+      let ok = true;
+
+      // RF-34: NIT y razón social son los dos únicos obligatorios.
+      if (nit === '') {
+        ok = marcar('campo-nit', 'error-nit', 'El NIT es obligatorio') && ok;
+      } else if (!/^\d{9,12}-\d$/.test(nit)) {
+        ok = marcar('campo-nit', 'error-nit',
+                    'Formato esperado: 9 a 12 dígitos, guion y dígito de verificación') && ok;
+      } else {
+        marcar('campo-nit', 'error-nit', '');
+      }
+
+      ok = marcar('campo-razon', 'error-razon',
+                  razon === '' ? 'La razón social es obligatoria' : '') && ok;
+
+      // El teléfono es opcional, pero si se escribe tiene que ser válido.
+      if (telefono !== '' && !/^[\d\s]{7,15}$/.test(telefono)) {
+        ok = marcar('campo-telefono', 'error-telefono',
+                    'El teléfono solo admite dígitos y espacios, entre 7 y 15 caracteres') && ok;
+      } else {
+        marcar('campo-telefono', 'error-telefono', '');
+      }
+
+      if (!ok) return;
+
+      exito.hidden = false;
+      exito.focus();
+      exito.scrollIntoView({ block: 'nearest' });
+
+      // Al editar no se vacía el formulario: los datos siguen en pantalla.
+      if (!editando) {
+        frm.reset();
+        document.getElementById('activo').checked = true;
+      }
+    });
+  </script>
+</body>
+</html>

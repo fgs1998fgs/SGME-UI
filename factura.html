@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factura emitida · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html" class="activo" aria-current="page">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Factura emitida</h1>
+    <p class="codigo-rf">RF-11 · RF-12 · RF-13</p>
+
+    <p class="aviso aviso-exito">
+      La venta se cerró correctamente y se emitió la factura FV-000189.
+    </p>
+
+    <dl class="ficha">
+      <dt>Número de factura</dt>
+      <dd>FV-000189</dd>
+      <dt>Fecha y hora</dt>
+      <dd>21/11/2026 · 11:58 a. m.</dd>
+      <dt>Cajero</dt>
+      <dd>Luis Pardo</dd>
+      <dt>Estado</dt>
+      <dd><span class="marca marca-ok">Activa</span></dd>
+    </dl>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Detalle de los productos facturados</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Producto</th>
+            <th scope="col" class="num">Cantidad</th>
+            <th scope="col" class="num">Precio unitario</th>
+            <th scope="col" class="num">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>7702001234567</td>
+            <td>Leche entera 1 L</td>
+            <td class="num">1</td>
+            <td class="num">$ 4.200</td>
+            <td class="num">$ 4.200</td>
+          </tr>
+          <tr>
+            <td>7702007778888</td>
+            <td>Aceite girasol 1 L</td>
+            <td class="num">1</td>
+            <td class="num">$ 12.400</td>
+            <td class="num">$ 12.400</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="4">Total</th>
+            <td class="num">$ 16.600</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="acciones">
+      <button type="button" class="btn" id="btn-imprimir">Imprimir factura</button>
+      <a class="btn btn-sec" href="nueva-venta.html">Nueva venta</a>
+      <a class="btn btn-sec" href="inicio.html">Volver al inicio</a>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // RF-13: la hoja de estilos oculta la cabecera, el menú, los botones y el
+    // pie al imprimir, de modo que en el papel solo queda la factura.
+    document.getElementById('btn-imprimir').addEventListener('click', function () {
+      window.print();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html" class="activo" aria-current="page">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Panel principal</h1>
+    <p class="codigo-rf">RF-17 · RF-18</p>
+
+    <section class="rejilla">
+      <article class="tarjeta">
+        <h2>Ventas del día</h2>
+        <span class="dato">34</span>
+        <a href="ventas.html">Ver listado</a>
+      </article>
+      <article class="tarjeta">
+        <h2>Total recaudado</h2>
+        <span class="dato">$ 1.284.600</span>
+        <a href="ventas.html">Ver detalle</a>
+      </article>
+      <article class="tarjeta">
+        <h2>Bajo el stock mínimo</h2>
+        <span class="dato dato-alerta">7</span>
+        <a href="productos.html">Ver productos</a>
+      </article>
+      <article class="tarjeta">
+        <h2>Lotes por vencer</h2>
+        <span class="dato dato-alerta">5</span>
+        <a href="reporte-vencimientos.html">Ver reporte</a>
+      </article>
+    </section>
+
+    <h2>Últimas ventas registradas</h2>
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Las cinco ventas más recientes del día</caption>
+        <thead>
+          <tr>
+            <th scope="col">Factura</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Cajero</th>
+            <th scope="col" class="num">Total</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="detalle-venta.html">FV-000188</a></td>
+            <td>11:42 a. m.</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 37.500</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+          </tr>
+          <tr>
+            <td><a href="detalle-venta.html">FV-000187</a></td>
+            <td>11:28 a. m.</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 12.900</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+          </tr>
+          <tr>
+            <td><a href="detalle-venta.html">FV-000186</a></td>
+            <td>11:05 a. m.</td>
+            <td>Marta Gil</td>
+            <td class="num">$ 7.300</td>
+            <td><span class="marca marca-mal">Anulada</span></td>
+          </tr>
+          <tr>
+            <td><a href="detalle-venta.html">FV-000185</a></td>
+            <td>10:51 a. m.</td>
+            <td>Marta Gil</td>
+            <td class="num">$ 64.150</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+          </tr>
+          <tr>
+            <td><a href="detalle-venta.html">FV-000184</a></td>
+            <td>10:42 a. m.</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 21.700</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+</body>
+</html>

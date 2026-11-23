@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anular venta · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html" class="activo" aria-current="page">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Anular venta</h1>
+    <p class="codigo-rf">RF-30 · RF-31 · RF-32 · RF-33</p>
+
+    <!-- RF-32: la advertencia va antes del formulario, no después de pulsar. -->
+    <p class="aviso aviso-peligro">
+      <strong>Esta acción no se puede deshacer.</strong> La venta no se borra:
+      queda registrada en estado anulada, con el motivo y la persona que la anuló.
+    </p>
+
+    <dl class="ficha">
+      <dt>Número de factura</dt>
+      <dd>FV-000188</dd>
+      <dt>Fecha y hora</dt>
+      <dd>21/11/2026 · 11:42 a. m.</dd>
+      <dt>Cajero que la registró</dt>
+      <dd>Luis Pardo</dd>
+      <dt>Total</dt>
+      <dd>$ 37.500</dd>
+      <dt>Productos</dt>
+      <dd>4 líneas · 9 unidades</dd>
+    </dl>
+
+    <form class="formulario" id="frm-anular" novalidate>
+      <div class="campo" id="campo-motivo">
+        <label for="motivo">Motivo de la anulación
+          <span class="ayuda">Mínimo 10 caracteres. Quedará en el historial.</span>
+        </label>
+        <textarea id="motivo" name="motivo"></textarea>
+        <p class="error" aria-live="polite" id="error-motivo"></p>
+      </div>
+
+      <div class="campo campo-casilla" id="campo-confirma">
+        <input type="checkbox" id="confirma" name="confirma">
+        <label for="confirma">Entiendo que esta acción no se puede deshacer</label>
+      </div>
+      <p class="error" aria-live="polite" id="error-confirma"></p>
+
+      <div class="acciones">
+        <button type="submit" class="btn btn-peligro">Anular la venta</button>
+        <a class="btn btn-sec" href="detalle-venta.html">Cancelar</a>
+      </div>
+    </form>
+
+    <p class="aviso aviso-exito" id="exito" role="alert" tabindex="-1" hidden>
+      La venta FV-000188 quedó anulada. El registro se conserva en el historial.
+    </p>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    const frm = document.getElementById('frm-anular');
+    const exito = document.getElementById('exito');
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+
+      const motivo = document.getElementById('motivo').value.trim();
+      const confirma = document.getElementById('confirma').checked;
+      const campoMotivo = document.getElementById('campo-motivo');
+      const errorMotivo = document.getElementById('error-motivo');
+      const errorConfirma = document.getElementById('error-confirma');
+
+      let ok = true;
+
+      // RF-31: el motivo tiene que ser una explicación, no una letra suelta.
+      if (motivo === '') {
+        campoMotivo.classList.add('con-error');
+        errorMotivo.textContent = 'Escriba el motivo de la anulación';
+        ok = false;
+      } else if (motivo.length < 10) {
+        campoMotivo.classList.add('con-error');
+        errorMotivo.textContent = 'El motivo debe tener mínimo 10 caracteres (lleva ' +
+                                  motivo.length + ')';
+        ok = false;
+      } else {
+        campoMotivo.classList.remove('con-error');
+        errorMotivo.textContent = '';
+      }
+
+      if (!confirma) {
+        errorConfirma.textContent = 'Debe confirmar que entiende que la acción es irreversible';
+        ok = false;
+      } else {
+        errorConfirma.textContent = '';
+      }
+
+      if (!ok) return;
+
+      // RF-33: la venta cambia de estado; no se elimina.
+      frm.hidden = true;
+      exito.hidden = false;
+      exito.scrollIntoView({ block: 'nearest' });
+    });
+  </script>
+</body>
+</html>

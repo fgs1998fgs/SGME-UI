@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva venta · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html" class="activo" aria-current="page">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Nueva venta</h1>
+    <p class="codigo-rf">RF-07 · RF-08 · RF-09 · RF-10</p>
+
+    <form class="formulario formulario-ancho" id="frm-agregar" novalidate>
+      <div class="filtros">
+        <div class="campo" id="campo-codigo">
+          <label for="codigo">Código de barras
+            <span class="ayuda">Pruebe con 7702001234567, 7702009876543 o 7702005551234</span>
+          </label>
+          <input type="text" id="codigo" name="codigo" inputmode="numeric" autofocus>
+          <p class="error" aria-live="polite" id="error-codigo"></p>
+        </div>
+        <div class="campo" id="campo-cantidad">
+          <label for="cantidad">Cantidad</label>
+          <input type="number" id="cantidad" name="cantidad" value="1" min="1" step="1">
+          <p class="error" aria-live="polite" id="error-cantidad"></p>
+        </div>
+        <div class="campo">
+          <button type="submit" class="btn">Agregar producto</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Productos de esta venta</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Producto</th>
+            <th scope="col" class="num">Cantidad</th>
+            <th scope="col" class="num">Precio unitario</th>
+            <th scope="col" class="num">Subtotal</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo-venta">
+          <tr id="fila-vacia">
+            <td colspan="6">Aún no se ha agregado ningún producto.</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="4">Total de la venta</th>
+            <td class="num" id="total-venta">$ 0</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p class="aviso aviso-peligro" id="aviso-vacia" role="alert" tabindex="-1" hidden>
+      No se puede cerrar una venta sin productos. Agregue al menos uno.
+    </p>
+
+    <div class="acciones">
+      <button type="button" class="btn" id="btn-cobrar">Cobrar y emitir factura</button>
+      <a class="btn btn-sec" href="inicio.html">Cancelar</a>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // Catálogo ficticio. Esta evidencia cubre la interfaz: no hay base de datos.
+    const CATALOGO = {
+      '7702001234567': { nombre: 'Leche entera 1 L', precio: 4200 },
+      '7702009876543': { nombre: 'Arroz blanco 500 g', precio: 2800 },
+      '7702005551234': { nombre: 'Jabón en barra 300 g', precio: 5600 },
+      '7702007778888': { nombre: 'Aceite girasol 1 L', precio: 12400 },
+      '7702003334444': { nombre: 'Panela cuadrada 500 g', precio: 3900 }
+    };
+
+    const frm = document.getElementById('frm-agregar');
+    const cuerpo = document.getElementById('cuerpo-venta');
+    const filaVacia = document.getElementById('fila-vacia');
+    const totalVenta = document.getElementById('total-venta');
+    const avisoVacia = document.getElementById('aviso-vacia');
+
+    // Las líneas viven en memoria; el DOM se vuelve a pintar desde aquí.
+    let lineas = [];
+
+    const pesos = (n) => '$ ' + n.toLocaleString('es-CO');
+
+    function marcarError(idCampo, idError, mensaje) {
+      document.getElementById(idCampo).classList.toggle('con-error', mensaje !== '');
+      document.getElementById(idError).textContent = mensaje;
+      return mensaje === '';
+    }
+
+    // RF-09: el total se recalcula entero cada vez que cambia una línea.
+    function pintar() {
+      cuerpo.innerHTML = '';
+
+      if (lineas.length === 0) {
+        cuerpo.appendChild(filaVacia);
+        totalVenta.textContent = pesos(0);
+        return;
+      }
+
+      let total = 0;
+      lineas.forEach(function (linea, indice) {
+        const subtotal = linea.cantidad * linea.precio;
+        total += subtotal;
+
+        const fila = document.createElement('tr');
+        fila.innerHTML =
+          '<td>' + linea.codigo + '</td>' +
+          '<td>' + linea.nombre + '</td>' +
+          '<td class="num">' + linea.cantidad + '</td>' +
+          '<td class="num">' + pesos(linea.precio) + '</td>' +
+          '<td class="num">' + pesos(subtotal) + '</td>' +
+          '<td><button type="button" class="btn btn-sec btn-chico" data-quitar="' +
+          indice + '">Quitar</button></td>';
+        cuerpo.appendChild(fila);
+      });
+
+      totalVenta.textContent = pesos(total);
+    }
+
+    // RF-07: se agrega por código de barras.
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      avisoVacia.hidden = true;
+
+      const codigo = document.getElementById('codigo').value.trim();
+      const cantidad = parseInt(document.getElementById('cantidad').value, 10);
+
+      let ok = true;
+      if (codigo === '') {
+        ok = marcarError('campo-codigo', 'error-codigo', 'Escriba el código de barras') && ok;
+      } else if (!CATALOGO[codigo]) {
+        ok = marcarError('campo-codigo', 'error-codigo', 'Ese código no está en el catálogo') && ok;
+      } else {
+        marcarError('campo-codigo', 'error-codigo', '');
+      }
+
+      if (!Number.isInteger(cantidad) || cantidad < 1) {
+        ok = marcarError('campo-cantidad', 'error-cantidad', 'La cantidad debe ser 1 o más') && ok;
+      } else {
+        marcarError('campo-cantidad', 'error-cantidad', '');
+      }
+
+      if (!ok) return;
+
+      // Si el producto ya está en la venta, se suma a su línea en vez de
+      // crear una repetida.
+      const existente = lineas.find(function (l) { return l.codigo === codigo; });
+      if (existente) {
+        existente.cantidad += cantidad;
+      } else {
+        lineas.push({
+          codigo: codigo,
+          nombre: CATALOGO[codigo].nombre,
+          precio: CATALOGO[codigo].precio,
+          cantidad: cantidad
+        });
+      }
+
+      pintar();
+      frm.reset();
+      document.getElementById('cantidad').value = 1;
+      document.getElementById('codigo').focus();
+    });
+
+    // Un solo escucha en el cuerpo de la tabla atiende todos los botones
+    // «Quitar», incluidos los de las filas que todavía no existen.
+    cuerpo.addEventListener('click', function (evento) {
+      const indice = evento.target.getAttribute('data-quitar');
+      if (indice === null) return;
+      lineas.splice(parseInt(indice, 10), 1);
+      pintar();                       // RF-09
+    });
+
+    // RF-10: no se cierra una venta sin productos.
+    document.getElementById('btn-cobrar').addEventListener('click', function () {
+      if (lineas.length === 0) {
+        avisoVacia.hidden = false;
+        avisoVacia.scrollIntoView({ block: 'nearest' });
+        return;
+      }
+      window.location.href = 'factura.html';
+    });
+
+    pintar();
+  </script>
+</body>
+</html>

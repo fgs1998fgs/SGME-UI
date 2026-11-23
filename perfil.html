@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi perfil · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html" class="activo" aria-current="page">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Mi perfil</h1>
+    <p class="codigo-rf">RF-39 · RF-40 · RF-41</p>
+
+    <dl class="ficha">
+      <dt>Documento</dt>
+      <dd>1024595068</dd>
+      <dt>Nombre</dt>
+      <dd>Ana Torres</dd>
+      <dt>Rol</dt>
+      <dd>Administradora</dd>
+      <dt>Cuenta creada</dt>
+      <dd>12/01/2026</dd>
+      <dt>Estado</dt>
+      <dd><span class="marca marca-ok">Activa</span></dd>
+    </dl>
+
+    <p class="aviso aviso-exito" id="exito" role="alert" tabindex="-1" hidden>
+      La contraseña se cambió correctamente.
+    </p>
+
+    <form class="formulario" id="frm-clave" novalidate>
+      <h2>Cambiar contraseña</h2>
+
+      <div class="campo" id="campo-actual">
+        <label for="actual">Contraseña actual</label>
+        <input type="password" id="actual" name="actual" autocomplete="current-password">
+        <p class="error" aria-live="polite" id="error-actual"></p>
+      </div>
+
+      <div class="campo" id="campo-nueva">
+        <label for="nueva">Contraseña nueva
+          <span class="ayuda">Mínimo 8 caracteres</span>
+        </label>
+        <input type="password" id="nueva" name="nueva" autocomplete="new-password">
+        <p class="error" aria-live="polite" id="error-nueva"></p>
+      </div>
+
+      <div class="campo" id="campo-repetir">
+        <label for="repetir">Repita la contraseña nueva</label>
+        <input type="password" id="repetir" name="repetir" autocomplete="new-password">
+        <p class="error" aria-live="polite" id="error-repetir"></p>
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn">Cambiar contraseña</button>
+        <a class="btn btn-sec" href="inicio.html">Cancelar</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    const frm = document.getElementById('frm-clave');
+    const exito = document.getElementById('exito');
+
+    function marcar(idCampo, idError, mensaje) {
+      document.getElementById(idCampo).classList.toggle('con-error', mensaje !== '');
+      document.getElementById(idError).textContent = mensaje;
+      return mensaje === '';
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      exito.hidden = true;
+
+      const actual = document.getElementById('actual').value;
+      const nueva = document.getElementById('nueva').value;
+      const repetir = document.getElementById('repetir').value;
+
+      let ok = true;
+
+      ok = marcar('campo-actual', 'error-actual',
+                  actual === '' ? 'Escriba su contraseña actual' : '') && ok;
+
+      // RF-41: longitud mínima.
+      if (nueva === '') {
+        ok = marcar('campo-nueva', 'error-nueva', 'Escriba la contraseña nueva') && ok;
+      } else if (nueva.length < 8) {
+        ok = marcar('campo-nueva', 'error-nueva',
+                    'La contraseña debe tener mínimo 8 caracteres (lleva ' +
+                    nueva.length + ')') && ok;
+      } else if (nueva === actual) {
+        ok = marcar('campo-nueva', 'error-nueva',
+                    'La contraseña nueva debe ser distinta de la actual') && ok;
+      } else {
+        marcar('campo-nueva', 'error-nueva', '');
+      }
+
+      // RF-40: las dos nuevas tienen que coincidir.
+      if (repetir === '') {
+        ok = marcar('campo-repetir', 'error-repetir', 'Repita la contraseña nueva') && ok;
+      } else if (repetir !== nueva) {
+        ok = marcar('campo-repetir', 'error-repetir', 'Las dos contraseñas no coinciden') && ok;
+      } else {
+        marcar('campo-repetir', 'error-repetir', '');
+      }
+
+      if (!ok) return;
+
+      exito.hidden = false;
+      exito.scrollIntoView({ block: 'nearest' });
+      frm.reset();
+    });
+  </script>
+</body>
+</html>

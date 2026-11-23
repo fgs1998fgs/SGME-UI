@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proveedores · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html" class="activo" aria-current="page">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Proveedores</h1>
+    <p class="codigo-rf">RF-34 · RF-35</p>
+
+    <div class="fila-botones">
+      <a class="btn" href="nuevo-proveedor.html">Registrar proveedor</a>
+    </div>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Proveedores registrados y su estado</caption>
+        <thead>
+          <tr>
+            <th scope="col">NIT</th>
+            <th scope="col">Razón social</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col" class="num">Lotes</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>900123456-1</td>
+            <td>Lácteos del Norte</td>
+            <td>Carolina Ruiz</td>
+            <td>310 555 1122</td>
+            <td class="num">3</td>
+            <td><span class="marca marca-ok">Activo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-proveedor.html?nit=900123456-1">Editar</a></td>
+          </tr>
+          <tr>
+            <td>901987654-3</td>
+            <td>Distribuidora El Trigal</td>
+            <td>Jorge Medina</td>
+            <td>311 555 3344</td>
+            <td class="num">2</td>
+            <td><span class="marca marca-ok">Activo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-proveedor.html?nit=901987654-3">Editar</a></td>
+          </tr>
+          <tr>
+            <td>830456789-2</td>
+            <td>Aseo Total S.A.S.</td>
+            <td>Patricia Lozano</td>
+            <td>312 555 5566</td>
+            <td class="num">1</td>
+            <td><span class="marca marca-ok">Activo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-proveedor.html?nit=830456789-2">Editar</a></td>
+          </tr>
+          <tr>
+            <td>811222333-4</td>
+            <td>Bebidas La Esquina</td>
+            <td>Andrés Parra</td>
+            <td>313 555 7788</td>
+            <td class="num">0</td>
+            <td><span class="marca marca-mal">Inactivo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-proveedor.html?nit=811222333-4">Editar</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="aviso aviso-info">
+      Bebidas La Esquina está inactivo: ya no se le compra, pero el registro se
+      conserva para poder consultar los lotes que trajo (RF-35).
+    </p>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+</body>
+</html>

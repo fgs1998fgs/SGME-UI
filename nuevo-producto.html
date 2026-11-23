@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar producto · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html" class="activo" aria-current="page">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina" id="titulo">Registrar producto</h1>
+    <p class="codigo-rf">RF-19 · RF-20 · RF-21 · RF-22 · RF-23</p>
+
+    <p class="aviso aviso-exito" id="exito" role="alert" tabindex="-1" hidden>
+      El producto quedó registrado correctamente.
+    </p>
+
+    <form class="formulario" id="frm-producto" novalidate>
+      <div class="campo" id="campo-codigo">
+        <label for="codigo">Código de barras
+          <span class="ayuda">13 dígitos. El 7702001234567 ya está registrado</span>
+        </label>
+        <input type="text" id="codigo" name="codigo" inputmode="numeric">
+        <p class="error" aria-live="polite" id="error-codigo"></p>
+      </div>
+
+      <div class="campo" id="campo-nombre">
+        <label for="nombre">Nombre del producto</label>
+        <input type="text" id="nombre" name="nombre">
+        <p class="error" aria-live="polite" id="error-nombre"></p>
+      </div>
+
+      <div class="campo" id="campo-categoria">
+        <label for="categoria">Categoría</label>
+        <select id="categoria" name="categoria">
+          <option value="">Seleccione una categoría</option>
+          <option>Lácteos</option>
+          <option>Granos</option>
+          <option>Aseo</option>
+          <option>Despensa</option>
+          <option>Bebidas</option>
+        </select>
+        <p class="error" aria-live="polite" id="error-categoria"></p>
+      </div>
+
+      <div class="campo" id="campo-precio">
+        <label for="precio">Precio de venta
+          <span class="ayuda">En pesos, mayor que cero</span>
+        </label>
+        <input type="number" id="precio" name="precio" min="1" step="1">
+        <p class="error" aria-live="polite" id="error-precio"></p>
+      </div>
+
+      <div class="campo" id="campo-minimo">
+        <label for="minimo">Stock mínimo
+          <span class="ayuda">Unidades a partir de las cuales hay que volver a pedir</span>
+        </label>
+        <input type="number" id="minimo" name="minimo" min="0" step="1" value="10">
+        <p class="error" aria-live="polite" id="error-minimo"></p>
+      </div>
+
+      <div class="campo campo-casilla">
+        <input type="checkbox" id="perecedero" name="perecedero">
+        <label for="perecedero">Es perecedero (exige control de lote y fecha de vencimiento)</label>
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn" id="btn-guardar">Guardar producto</button>
+        <a class="btn btn-sec" href="productos.html">Cancelar</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // Catálogo ficticio. Esta pantalla sirve para dos cosas (RF-19 y RF-23):
+    // registrar un producto nuevo y editar uno que ya existe. Lo que decide
+    // cuál de las dos es el parámetro «codigo» de la dirección: si viene, la
+    // pantalla entra en modo edición, carga los datos y cambia los textos.
+    const CATALOGO = {
+      '7702001234567': { nombre: 'Leche entera 1 L', categoria: 'Lácteos', precio: 4200, minimo: 15, perecedero: true },
+      '7702009876543': { nombre: 'Arroz blanco 500 g', categoria: 'Granos', precio: 2800, minimo: 20, perecedero: true },
+      '7702005551234': { nombre: 'Jabón en barra 300 g', categoria: 'Aseo', precio: 5600, minimo: 12, perecedero: false },
+      '7702007778888': { nombre: 'Aceite girasol 1 L', categoria: 'Despensa', precio: 12400, minimo: 10, perecedero: false },
+      '7702003334444': { nombre: 'Panela cuadrada 500 g', categoria: 'Despensa', precio: 3900, minimo: 10, perecedero: true },
+      '7702006662222': { nombre: 'Yogur de fresa 150 g', categoria: 'Lácteos', precio: 2100, minimo: 18, perecedero: true }
+    };
+    const YA_REGISTRADOS = Object.keys(CATALOGO);
+
+    const frm = document.getElementById('frm-producto');
+    const exito = document.getElementById('exito');
+
+    // El código que se está editando, o cadena vacía si es un alta.
+    const editando = new URLSearchParams(window.location.search).get('codigo') || '';
+
+    if (editando && CATALOGO[editando]) {
+      const p = CATALOGO[editando];
+      document.getElementById('titulo').textContent = 'Editar producto';
+      document.title = 'Editar producto · SGME';
+      document.getElementById('btn-guardar').textContent = 'Guardar cambios';
+      exito.textContent = 'Los cambios del producto quedaron guardados.';
+
+      document.getElementById('codigo').value = editando;
+      document.getElementById('nombre').value = p.nombre;
+      document.getElementById('categoria').value = p.categoria;
+      document.getElementById('precio').value = p.precio;
+      document.getElementById('minimo').value = p.minimo;
+      document.getElementById('perecedero').checked = p.perecedero;
+    } else if (editando) {
+      // Llegó un código que no existe: se avisa en vez de mostrar un
+      // formulario vacío que parece un alta normal.
+      document.getElementById('titulo').textContent = 'Producto no encontrado';
+      exito.className = 'aviso aviso-peligro';
+      exito.textContent = 'No existe ningún producto con el código ' + editando
+        + '. Puede registrarlo como nuevo.';
+      exito.hidden = false;
+    }
+
+    function revisar(idCampo, idError, mensaje) {
+      document.getElementById(idCampo).classList.toggle('con-error', mensaje !== '');
+      document.getElementById(idError).textContent = mensaje;
+      return mensaje === '';
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      exito.hidden = true;
+
+      const codigo = document.getElementById('codigo').value.trim();
+      const nombre = document.getElementById('nombre').value.trim();
+      const categoria = document.getElementById('categoria').value;
+      const precio = parseFloat(document.getElementById('precio').value);
+      const minimo = parseInt(document.getElementById('minimo').value, 10);
+
+      let ok = true;
+
+      // RF-19 y RF-21
+      if (codigo === '') {
+        ok = revisar('campo-codigo', 'error-codigo', 'El código de barras es obligatorio') && ok;
+      } else if (!/^\d{13}$/.test(codigo)) {
+        ok = revisar('campo-codigo', 'error-codigo', 'El código debe tener 13 dígitos') && ok;
+      } else if (codigo !== editando && YA_REGISTRADOS.indexOf(codigo) !== -1) {
+        // Al editar, el código propio del producto no cuenta como repetido:
+        // si no se excluyera, guardar sin cambiar nada daría error.
+        ok = revisar('campo-codigo', 'error-codigo', 'Ese código de barras ya está registrado') && ok;
+      } else {
+        revisar('campo-codigo', 'error-codigo', '');
+      }
+
+      ok = revisar('campo-nombre', 'error-nombre',
+                   nombre === '' ? 'El nombre es obligatorio' : '') && ok;
+
+      ok = revisar('campo-categoria', 'error-categoria',
+                   categoria === '' ? 'Seleccione una categoría' : '') && ok;
+
+      // RF-20: el precio no puede ser cero ni negativo.
+      if (isNaN(precio)) {
+        ok = revisar('campo-precio', 'error-precio', 'Escriba el precio de venta') && ok;
+      } else if (precio <= 0) {
+        ok = revisar('campo-precio', 'error-precio', 'El precio debe ser mayor que cero') && ok;
+      } else {
+        revisar('campo-precio', 'error-precio', '');
+      }
+
+      if (isNaN(minimo) || minimo < 0) {
+        ok = revisar('campo-minimo', 'error-minimo', 'El stock mínimo no puede ser negativo') && ok;
+      } else {
+        revisar('campo-minimo', 'error-minimo', '');
+      }
+
+      if (!ok) return;
+
+      exito.hidden = false;
+      exito.focus();
+      exito.scrollIntoView({ block: 'nearest' });
+
+      // Solo se vacía el formulario cuando es un alta. Al editar se dejan los
+      // datos en pantalla, porque vaciarlos haría pensar que se borró algo.
+      if (!editando) {
+        frm.reset();
+        document.getElementById('minimo').value = 10;
+      }
+    });
+  </script>
+</body>
+</html>

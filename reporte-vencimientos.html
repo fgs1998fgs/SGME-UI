@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte de vencimientos · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html" class="activo" aria-current="page">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Reporte de vencimientos</h1>
+    <p class="codigo-rf">RF-27 · RF-28 · RF-29</p>
+
+    <form class="filtros" id="frm-reporte">
+      <div class="campo">
+        <label for="desde">Vencen desde</label>
+        <input type="date" id="desde" name="desde" value="2026-11-01">
+      </div>
+      <div class="campo">
+        <label for="hasta">Vencen hasta</label>
+        <input type="date" id="hasta" name="hasta" value="2026-12-31">
+      </div>
+      <div class="campo">
+        <button type="submit" class="btn">Consultar</button>
+      </div>
+    </form>
+
+    <p class="error" aria-live="polite" id="error-rango"></p>
+
+    <section class="rejilla">
+      <article class="tarjeta">
+        <h2>Lotes vencidos</h2>
+        <span class="dato dato-alerta" id="n-vencidos">0</span>
+        <p>Hay que retirarlos de la góndola.</p>
+      </article>
+      <article class="tarjeta">
+        <h2>Vencen en 15 días</h2>
+        <span class="dato dato-alerta" id="n-proximos">0</span>
+        <p>Conviene sacarlos primero.</p>
+      </article>
+      <article class="tarjeta">
+        <h2>Unidades comprometidas</h2>
+        <span class="dato" id="n-unidades">0</span>
+        <p>Suma de lo que está vencido o por vencer.</p>
+      </article>
+    </section>
+
+    <p class="aviso aviso-info" id="sin-resultados" hidden>
+      No hay lotes que venzan en el rango consultado.
+    </p>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Lotes ordenados del más próximo a vencer al más lejano (RF-28)</caption>
+        <thead>
+          <tr>
+            <th scope="col">Lote</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Vencimiento</th>
+            <th scope="col" class="num">Unidades</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo-reporte">
+          <tr data-vence="2026-11-18" data-unidades="4" data-estado="vencido">
+            <td>L-2026-087</td>
+            <td>Yogur de fresa 150 g</td>
+            <td>Lácteos del Norte</td>
+            <td>18/11/2026</td>
+            <td class="num">4</td>
+            <td><span class="marca marca-mal">Vencido</span></td>
+          </tr>
+          <tr data-vence="2026-11-24" data-unidades="18" data-estado="proximo">
+            <td>L-2026-114</td>
+            <td>Leche entera 1 L</td>
+            <td>Lácteos del Norte</td>
+            <td>24/11/2026</td>
+            <td class="num">18</td>
+            <td><span class="marca marca-alerta">Por vencer</span></td>
+          </tr>
+          <tr data-vence="2026-11-29" data-unidades="12" data-estado="proximo">
+            <td>L-2026-121</td>
+            <td>Yogur de fresa 150 g</td>
+            <td>Lácteos del Norte</td>
+            <td>29/11/2026</td>
+            <td class="num">12</td>
+            <td><span class="marca marca-alerta">Por vencer</span></td>
+          </tr>
+          <tr data-vence="2026-12-01" data-unidades="30" data-estado="vigente">
+            <td>L-2026-118</td>
+            <td>Leche entera 1 L</td>
+            <td>Lácteos del Norte</td>
+            <td>01/12/2026</td>
+            <td class="num">30</td>
+            <td><span class="marca marca-ok">Vigente</span></td>
+          </tr>
+          <tr data-vence="2027-05-15" data-unidades="9" data-estado="vigente">
+            <td>L-2026-120</td>
+            <td>Arroz blanco 500 g</td>
+            <td>Distribuidora El Trigal</td>
+            <td>15/05/2027</td>
+            <td class="num">9</td>
+            <td><span class="marca marca-ok">Vigente</span></td>
+          </tr>
+          <tr data-vence="2027-10-28" data-unidades="6" data-estado="vigente">
+            <td>L-2026-101</td>
+            <td>Panela cuadrada 500 g</td>
+            <td>Distribuidora El Trigal</td>
+            <td>28/10/2027</td>
+            <td class="num">6</td>
+            <td><span class="marca marca-ok">Vigente</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // RF-27: consulta por rango de fechas de vencimiento.
+    // Los contadores se calculan de las filas visibles, no están escritos a
+    // mano: si se cambia el rango, los tres números cambian con él.
+    const frm = document.getElementById('frm-reporte');
+    const filas = document.querySelectorAll('#cuerpo-reporte tr');
+    const sinResultados = document.getElementById('sin-resultados');
+    const errorRango = document.getElementById('error-rango');
+
+    function consultar() {
+      const desde = document.getElementById('desde').value;
+      const hasta = document.getElementById('hasta').value;
+
+      if (desde && hasta && desde > hasta) {
+        errorRango.textContent = 'La fecha inicial no puede ser posterior a la final';
+        return;
+      }
+      errorRango.textContent = '';
+
+      let vencidos = 0;
+      let proximos = 0;
+      let unidades = 0;
+      let visibles = 0;
+
+      filas.forEach(function (fila) {
+        const vence = fila.getAttribute('data-vence');
+        const dentro = (!desde || vence >= desde) && (!hasta || vence <= hasta);
+        fila.hidden = !dentro;
+        if (!dentro) return;
+
+        visibles++;
+        const estado = fila.getAttribute('data-estado');
+        if (estado === 'vencido') {
+          vencidos++;
+          unidades += parseInt(fila.getAttribute('data-unidades'), 10);
+        } else if (estado === 'proximo') {
+          proximos++;
+          unidades += parseInt(fila.getAttribute('data-unidades'), 10);
+        }
+      });
+
+      document.getElementById('n-vencidos').textContent = vencidos;
+      document.getElementById('n-proximos').textContent = proximos;
+      document.getElementById('n-unidades').textContent = unidades;
+      sinResultados.hidden = visibles > 0;
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      consultar();
+    });
+
+    consultar();
+  </script>
+</body>
+</html>

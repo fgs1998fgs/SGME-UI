@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html" class="activo" aria-current="page">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Productos</h1>
+    <p class="codigo-rf">RF-14 · RF-15 · RF-16</p>
+
+    <form class="filtros" id="frm-buscar" role="search">
+      <div class="campo">
+        <label for="busqueda">Buscar por nombre o código de barras</label>
+        <input type="search" id="busqueda" name="busqueda">
+      </div>
+      <div class="campo">
+        <label for="categoria">Categoría</label>
+        <select id="categoria" name="categoria">
+          <option value="">Todas</option>
+          <option>Lácteos</option>
+          <option>Granos</option>
+          <option>Aseo</option>
+          <option>Despensa</option>
+        </select>
+      </div>
+      <div class="campo">
+        <button type="submit" class="btn">Buscar</button>
+      </div>
+    </form>
+
+    <div class="fila-botones">
+      <a class="btn" href="nuevo-producto.html">Registrar producto</a>
+    </div>
+
+    <p class="aviso aviso-info" id="sin-resultados" hidden>
+      La búsqueda no arrojó resultados.
+    </p>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Catálogo con las existencias actuales</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código de barras</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Categoría</th>
+            <th scope="col" class="num">Precio</th>
+            <th scope="col" class="num">Existencias</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo-productos">
+          <tr data-texto="7702001234567 leche entera 1 l" data-categoria="Lácteos">
+            <td>7702001234567</td>
+            <td>Leche entera 1 L</td>
+            <td>Lácteos</td>
+            <td class="num">$ 4.200</td>
+            <td class="num">48</td>
+            <td><span class="marca marca-ok">Activo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-producto.html?codigo=7702001234567">Editar</a></td>
+          </tr>
+          <tr data-texto="7702009876543 arroz blanco 500 g" data-categoria="Granos">
+            <td>7702009876543</td>
+            <td>Arroz blanco 500 g</td>
+            <td>Granos</td>
+            <td class="num">$ 2.800</td>
+            <td class="num">9</td>
+            <td><span class="marca marca-alerta">Stock bajo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-producto.html?codigo=7702009876543">Editar</a></td>
+          </tr>
+          <tr data-texto="7702005551234 jabón en barra 300 g" data-categoria="Aseo">
+            <td>7702005551234</td>
+            <td>Jabón en barra 300 g</td>
+            <td>Aseo</td>
+            <td class="num">$ 5.600</td>
+            <td class="num">72</td>
+            <td><span class="marca marca-ok">Activo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-producto.html?codigo=7702005551234">Editar</a></td>
+          </tr>
+          <tr data-texto="7702007778888 aceite girasol 1 l" data-categoria="Despensa">
+            <td>7702007778888</td>
+            <td>Aceite girasol 1 L</td>
+            <td>Despensa</td>
+            <td class="num">$ 12.400</td>
+            <td class="num">21</td>
+            <td><span class="marca marca-ok">Activo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-producto.html?codigo=7702007778888">Editar</a></td>
+          </tr>
+          <tr data-texto="7702003334444 panela cuadrada 500 g" data-categoria="Despensa">
+            <td>7702003334444</td>
+            <td>Panela cuadrada 500 g</td>
+            <td>Despensa</td>
+            <td class="num">$ 3.900</td>
+            <td class="num">6</td>
+            <td><span class="marca marca-alerta">Stock bajo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-producto.html?codigo=7702003334444">Editar</a></td>
+          </tr>
+          <tr data-texto="7702006662222 yogur fresa 150 g" data-categoria="Lácteos">
+            <td>7702006662222</td>
+            <td>Yogur de fresa 150 g</td>
+            <td>Lácteos</td>
+            <td class="num">$ 2.100</td>
+            <td class="num">0</td>
+            <td><span class="marca marca-mal">Inactivo</span></td>
+            <td><a class="btn btn-sec btn-chico" href="nuevo-producto.html?codigo=7702006662222">Editar</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // RF-15: la búsqueda filtra las filas ya cargadas. Como no hay servidor,
+    // cada fila lleva en data-texto su contenido en minúsculas y sin tildes
+    // para que «jabon» encuentre «jabón».
+    const frm = document.getElementById('frm-buscar');
+    const filas = document.querySelectorAll('#cuerpo-productos tr');
+    const sinResultados = document.getElementById('sin-resultados');
+
+    function sinTildes(texto) {
+      return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    }
+
+    function filtrar() {
+      const termino = sinTildes(document.getElementById('busqueda').value.trim());
+      const categoria = document.getElementById('categoria').value;
+      let visibles = 0;
+
+      filas.forEach(function (fila) {
+        const texto = sinTildes(fila.getAttribute('data-texto'));
+        const coincideTexto = termino === '' || texto.indexOf(termino) !== -1;
+        const coincideCat = categoria === '' || fila.getAttribute('data-categoria') === categoria;
+        const mostrar = coincideTexto && coincideCat;
+        fila.hidden = !mostrar;
+        if (mostrar) visibles++;
+      });
+
+      sinResultados.hidden = visibles > 0;
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      filtrar();
+    });
+
+    // Filtra mientras se escribe, sin tener que pulsar el botón.
+    document.getElementById('busqueda').addEventListener('input', filtrar);
+    document.getElementById('categoria').addEventListener('change', filtrar);
+  </script>
+</body>
+</html>

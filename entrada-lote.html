@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrada de lote · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html" class="activo" aria-current="page">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Registrar entrada de lote</h1>
+    <p class="codigo-rf">RF-24 · RF-25 · RF-26</p>
+
+    <p class="aviso aviso-exito" id="exito" role="alert" tabindex="-1" hidden>
+      La entrada del lote quedó registrada y las existencias se actualizaron.
+    </p>
+
+    <form class="formulario" id="frm-lote" novalidate>
+      <div class="campo" id="campo-producto">
+        <label for="producto">Producto</label>
+        <select id="producto" name="producto">
+          <option value="">Seleccione el producto</option>
+          <option value="leche" data-perecedero="si">Leche entera 1 L (perecedero)</option>
+          <option value="yogur" data-perecedero="si">Yogur de fresa 150 g (perecedero)</option>
+          <option value="arroz" data-perecedero="si">Arroz blanco 500 g (perecedero)</option>
+          <option value="jabon" data-perecedero="no">Jabón en barra 300 g</option>
+          <option value="aceite" data-perecedero="no">Aceite girasol 1 L</option>
+        </select>
+        <p class="error" aria-live="polite" id="error-producto"></p>
+      </div>
+
+      <div class="campo" id="campo-proveedor">
+        <label for="proveedor">Proveedor</label>
+        <select id="proveedor" name="proveedor">
+          <option value="">Seleccione el proveedor</option>
+          <option>Lácteos del Norte</option>
+          <option>Distribuidora El Trigal</option>
+          <option>Aseo Total S.A.S.</option>
+        </select>
+        <p class="error" aria-live="polite" id="error-proveedor"></p>
+      </div>
+
+      <div class="campo" id="campo-numero">
+        <label for="numero">Número de lote
+          <span class="ayuda">El que viene impreso en el empaque</span>
+        </label>
+        <input type="text" id="numero" name="numero">
+        <p class="error" aria-live="polite" id="error-numero"></p>
+      </div>
+
+      <div class="campo" id="campo-cantidad">
+        <label for="cantidad">Cantidad recibida</label>
+        <input type="number" id="cantidad" name="cantidad" min="1" step="1">
+        <p class="error" aria-live="polite" id="error-cantidad"></p>
+      </div>
+
+      <div class="campo" id="campo-ingreso">
+        <label for="ingreso">Fecha de ingreso</label>
+        <input type="date" id="ingreso" name="ingreso" value="2026-11-21">
+        <p class="error" aria-live="polite" id="error-ingreso"></p>
+      </div>
+
+      <!-- RF-25: este campo solo se exige si el producto es perecedero. -->
+      <div class="campo" id="campo-vencimiento">
+        <label for="vencimiento">Fecha de vencimiento
+          <span class="ayuda" id="ayuda-vencimiento">Seleccione primero el producto</span>
+        </label>
+        <input type="date" id="vencimiento" name="vencimiento" disabled>
+        <p class="error" aria-live="polite" id="error-vencimiento"></p>
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn">Registrar entrada</button>
+        <a class="btn btn-sec" href="lotes.html">Cancelar</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    const frm = document.getElementById('frm-lote');
+    const selProducto = document.getElementById('producto');
+    const inpVencimiento = document.getElementById('vencimiento');
+    const ayudaVenc = document.getElementById('ayuda-vencimiento');
+    const exito = document.getElementById('exito');
+
+    function marcar(idCampo, idError, mensaje) {
+      document.getElementById(idCampo).classList.toggle('con-error', mensaje !== '');
+      document.getElementById(idError).textContent = mensaje;
+      return mensaje === '';
+    }
+
+    function esPerecedero() {
+      const opcion = selProducto.options[selProducto.selectedIndex];
+      return opcion && opcion.getAttribute('data-perecedero') === 'si';
+    }
+
+    // RF-25: el campo de vencimiento se habilita solo cuando corresponde. Así
+    // el formulario le dice al usuario qué aplica antes de que se equivoque.
+    selProducto.addEventListener('change', function () {
+      if (selProducto.value === '') {
+        inpVencimiento.disabled = true;
+        inpVencimiento.value = '';
+        ayudaVenc.textContent = 'Seleccione primero el producto';
+      } else if (esPerecedero()) {
+        inpVencimiento.disabled = false;
+        ayudaVenc.textContent = 'Obligatoria: el producto es perecedero';
+      } else {
+        inpVencimiento.disabled = true;
+        inpVencimiento.value = '';
+        ayudaVenc.textContent = 'No aplica: el producto no es perecedero';
+      }
+      marcar('campo-vencimiento', 'error-vencimiento', '');
+    });
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      exito.hidden = true;
+
+      const cantidad = parseInt(document.getElementById('cantidad').value, 10);
+      const ingreso = document.getElementById('ingreso').value;
+      const vencimiento = inpVencimiento.value;
+
+      let ok = true;
+      ok = marcar('campo-producto', 'error-producto',
+                  selProducto.value === '' ? 'Seleccione el producto' : '') && ok;
+      ok = marcar('campo-proveedor', 'error-proveedor',
+                  document.getElementById('proveedor').value === ''
+                    ? 'Seleccione el proveedor' : '') && ok;
+      ok = marcar('campo-numero', 'error-numero',
+                  document.getElementById('numero').value.trim() === ''
+                    ? 'Escriba el número de lote' : '') && ok;
+
+      if (isNaN(cantidad) || cantidad < 1) {
+        ok = marcar('campo-cantidad', 'error-cantidad', 'La cantidad debe ser 1 o más') && ok;
+      } else {
+        marcar('campo-cantidad', 'error-cantidad', '');
+      }
+
+      ok = marcar('campo-ingreso', 'error-ingreso',
+                  ingreso === '' ? 'Indique la fecha de ingreso' : '') && ok;
+
+      // RF-25 y RF-26
+      if (esPerecedero()) {
+        if (vencimiento === '') {
+          ok = marcar('campo-vencimiento', 'error-vencimiento',
+                      'El producto es perecedero: la fecha de vencimiento es obligatoria') && ok;
+        } else if (ingreso !== '' && vencimiento < ingreso) {
+          ok = marcar('campo-vencimiento', 'error-vencimiento',
+                      'La fecha de vencimiento no puede ser anterior a la de ingreso') && ok;
+        } else {
+          marcar('campo-vencimiento', 'error-vencimiento', '');
+        }
+      }
+
+      if (!ok) return;
+
+      exito.hidden = false;
+      exito.scrollIntoView({ block: 'nearest' });
+      frm.reset();
+      inpVencimiento.disabled = true;
+      ayudaVenc.textContent = 'Seleccione primero el producto';
+      document.getElementById('ingreso').value = '2026-11-21';
+    });
+  </script>
+</body>
+</html>

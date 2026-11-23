@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de estilos · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Guía de estilos</span></p>
+      <p class="sesion">Componentes reutilizables del proyecto</p>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Guía de estilos</h1>
+    <p class="codigo-rf">Cada componente de <code>docs/componentes.md</code> con sus estados</p>
+
+    <section>
+      <h2>Paleta</h2>
+      <div class="rejilla">
+        <article class="tarjeta">
+          <h2>Principal</h2>
+          <span class="dato">#15616D</span>
+          <p>Cabecera, botones de acción y enlaces.</p>
+        </article>
+        <article class="tarjeta">
+          <h2>Acento</h2>
+          <span class="dato dato-alerta">#D98324</span>
+          <p>Lo que exige atención: foco visible y alertas de stock.</p>
+        </article>
+        <article class="tarjeta">
+          <h2>Peligro</h2>
+          <span class="dato">#B3261E</span>
+          <p>Errores de validación y acciones irreversibles.</p>
+        </article>
+        <article class="tarjeta">
+          <h2>Éxito</h2>
+          <span class="dato">#1F7A4D</span>
+          <p>Confirmaciones de operación realizada.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Botones</h2>
+      <div class="fila-botones">
+        <button type="button" class="btn">Botón principal</button>
+        <button type="button" class="btn btn-sec">Botón secundario</button>
+        <button type="button" class="btn btn-peligro">Botón de peligro</button>
+        <button type="button" class="btn btn-chico">Botón pequeño</button>
+      </div>
+      <p>Todos miden al menos 44 px de alto, que es el tamaño mínimo para tocar
+        con el dedo sin equivocarse.</p>
+    </section>
+
+    <section>
+      <h2>Marcas de estado</h2>
+      <p class="fila-botones">
+        <span class="marca marca-ok">Activa</span>
+        <span class="marca marca-alerta">Por vencer</span>
+        <span class="marca marca-mal">Anulada</span>
+      </p>
+      <p>Cada marca combina color, texto y borde. El color nunca es el único
+        indicador: el texto dice lo mismo.</p>
+    </section>
+
+    <section>
+      <h2>Avisos</h2>
+      <p class="aviso aviso-info">Aviso informativo: la consulta no arrojó resultados.</p>
+      <p class="aviso aviso-exito">Aviso de éxito: el producto quedó registrado.</p>
+      <p class="aviso aviso-peligro">Aviso de peligro: esta acción no se puede deshacer.</p>
+    </section>
+
+    <section>
+      <h2>Campos de formulario</h2>
+      <form class="formulario">
+        <div class="campo">
+          <label for="demo-normal">Campo normal</label>
+          <input type="text" id="demo-normal" name="demo-normal" value="Leche entera 1 L">
+          <p class="error" aria-live="polite"></p>
+        </div>
+
+        <div class="campo con-error">
+          <label for="demo-error">Campo con error</label>
+          <input type="text" id="demo-error" name="demo-error" value="">
+          <p class="error" aria-live="polite">Este campo es obligatorio</p>
+        </div>
+
+        <div class="campo">
+          <label for="demo-ayuda">Campo con texto de ayuda
+            <span class="ayuda">El código de barras tiene 13 dígitos</span>
+          </label>
+          <input type="text" id="demo-ayuda" name="demo-ayuda">
+          <p class="error" aria-live="polite"></p>
+        </div>
+
+        <div class="campo">
+          <label for="demo-select">Lista desplegable</label>
+          <select id="demo-select" name="demo-select">
+            <option>Lácteos</option>
+            <option>Granos</option>
+            <option>Aseo</option>
+          </select>
+          <p class="error" aria-live="polite"></p>
+        </div>
+
+        <div class="campo">
+          <label for="demo-area">Área de texto</label>
+          <textarea id="demo-area" name="demo-area"></textarea>
+          <p class="error" aria-live="polite"></p>
+        </div>
+
+        <div class="campo campo-casilla">
+          <input type="checkbox" id="demo-casilla" name="demo-casilla">
+          <label for="demo-casilla">Casilla de verificación</label>
+        </div>
+
+        <div class="acciones">
+          <button type="button" class="btn">Guardar</button>
+          <button type="button" class="btn btn-sec">Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <section>
+      <h2>Tabla de datos</h2>
+      <div class="tabla-scroll">
+        <table class="tabla">
+          <caption>Ejemplo de listado con datos ficticios</caption>
+          <thead>
+            <tr>
+              <th scope="col">Código</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Categoría</th>
+              <th scope="col" class="num">Precio</th>
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>7702001234567</td>
+              <td>Leche entera 1 L</td>
+              <td>Lácteos</td>
+              <td class="num">$ 4.200</td>
+              <td><span class="marca marca-ok">Activo</span></td>
+            </tr>
+            <tr>
+              <td>7702009876543</td>
+              <td>Arroz blanco 500 g</td>
+              <td>Granos</td>
+              <td class="num">$ 2.800</td>
+              <td><span class="marca marca-alerta">Stock bajo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>La tabla va envuelta en <code>.tabla-scroll</code> para que en celular
+        se desplace en horizontal sin romper la página.</p>
+    </section>
+
+    <section>
+      <h2>Ficha de datos</h2>
+      <dl class="ficha">
+        <dt>Número de factura</dt>
+        <dd>FV-000184</dd>
+        <dt>Fecha y hora</dt>
+        <dd>21/11/2026 · 10:42 a. m.</dd>
+        <dt>Cajero</dt>
+        <dd>Luis Pardo</dd>
+        <dt>Estado</dt>
+        <dd><span class="marca marca-ok">Activa</span></dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Tarjeta de indicador</h2>
+      <div class="rejilla">
+        <article class="tarjeta">
+          <h2>Ventas del día</h2>
+          <span class="dato">34</span>
+          <a href="ventas.html">Ver listado</a>
+        </article>
+        <article class="tarjeta">
+          <h2>Productos bajo mínimo</h2>
+          <span class="dato dato-alerta">7</span>
+          <a href="productos.html">Ver listado</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+</body>
+</html>

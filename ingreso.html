@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingreso · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="caja-centro">
+    <div class="caja-ingreso">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+
+      <h1 class="titulo-pagina">Ingreso</h1>
+      <p class="codigo-rf">RF-01 · RF-02 · RF-03 · RF-04</p>
+
+      <form class="formulario" id="frm-ingreso" novalidate>
+        <p class="aviso aviso-peligro" id="aviso-credenciales" role="alert" tabindex="-1" hidden>
+          El documento o la contraseña no son correctos.
+        </p>
+
+        <div class="campo" id="campo-documento">
+          <label for="documento">Número de documento</label>
+          <input type="text" id="documento" name="documento" inputmode="numeric"
+                 autocomplete="username">
+          <p class="error" aria-live="polite" id="error-documento"></p>
+        </div>
+
+        <div class="campo" id="campo-clave">
+          <label for="clave">Contraseña</label>
+          <input type="password" id="clave" name="clave" autocomplete="current-password">
+          <p class="error" aria-live="polite" id="error-clave"></p>
+        </div>
+
+        <div class="acciones">
+          <button type="submit" class="btn">Ingresar</button>
+          <a class="btn btn-sec" href="recuperar.html">Olvidé mi contraseña</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    // RF-02: el mensaje aparece junto al campo, no en una alerta del navegador.
+    // RF-03: si los datos no coinciden, el aviso es uno solo y no dice cuál de
+    // los dos falló, para no confirmarle a nadie que un documento existe.
+    const frm = document.getElementById('frm-ingreso');
+    const avisoCred = document.getElementById('aviso-credenciales');
+
+    // Datos ficticios: esta entrega cubre la interfaz, no la autenticación real.
+    const CUENTAS = {
+      '1024595068': { clave: 'sgme2026', destino: 'inicio.html' }
+    };
+
+    function validarCampo(idCampo, idEntrada, idError, mensaje) {
+      const campo = document.getElementById(idCampo);
+      const entrada = document.getElementById(idEntrada);
+      const error = document.getElementById(idError);
+      const vacio = entrada.value.trim() === '';
+      campo.classList.toggle('con-error', vacio);
+      error.textContent = vacio ? mensaje : '';
+      return !vacio;
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();          // evita que la página se recargue
+      avisoCred.hidden = true;
+
+      const okDoc = validarCampo('campo-documento', 'documento',
+                                 'error-documento', 'Escriba su número de documento');
+      const okClave = validarCampo('campo-clave', 'clave',
+                                   'error-clave', 'Escriba su contraseña');
+      if (!okDoc || !okClave) return;
+
+      const doc = document.getElementById('documento').value.trim();
+      const clave = document.getElementById('clave').value;
+      const cuenta = CUENTAS[doc];
+
+      if (cuenta && cuenta.clave === clave) {
+        window.location.href = cuenta.destino;   // RF-04
+      } else {
+        avisoCred.hidden = false;                 // RF-03
+        avisoCred.focus();
+      }
+    });
+  </script>
+</body>
+</html>

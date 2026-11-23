@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lotes · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html" class="activo" aria-current="page">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Lotes en bodega</h1>
+    <p class="codigo-rf">RF-28 · RF-29</p>
+
+    <div class="fila-botones">
+      <a class="btn" href="entrada-lote.html">Registrar entrada de lote</a>
+      <a class="btn btn-sec" href="reporte-vencimientos.html">Consultar por vencimiento</a>
+    </div>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Ordenados del más próximo a vencer al más lejano (RF-28)</caption>
+        <thead>
+          <tr>
+            <th scope="col">Lote</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Ingreso</th>
+            <th scope="col">Vencimiento</th>
+            <th scope="col" class="num">Disponibles</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>L-2026-087</td>
+            <td>Yogur de fresa 150 g</td>
+            <td>Lácteos del Norte</td>
+            <td>02/11/2026</td>
+            <td>18/11/2026</td>
+            <td class="num">4</td>
+            <td><span class="marca marca-mal">Vencido</span></td>
+          </tr>
+          <tr>
+            <td>L-2026-114</td>
+            <td>Leche entera 1 L</td>
+            <td>Lácteos del Norte</td>
+            <td>10/11/2026</td>
+            <td>24/11/2026</td>
+            <td class="num">18</td>
+            <td><span class="marca marca-alerta">Por vencer</span></td>
+          </tr>
+          <tr>
+            <td>L-2026-118</td>
+            <td>Leche entera 1 L</td>
+            <td>Lácteos del Norte</td>
+            <td>17/11/2026</td>
+            <td>01/12/2026</td>
+            <td class="num">30</td>
+            <td><span class="marca marca-alerta">Por vencer</span></td>
+          </tr>
+          <tr>
+            <td>L-2026-120</td>
+            <td>Arroz blanco 500 g</td>
+            <td>Distribuidora El Trigal</td>
+            <td>15/11/2026</td>
+            <td>15/05/2027</td>
+            <td class="num">9</td>
+            <td><span class="marca marca-ok">Vigente</span></td>
+          </tr>
+          <tr>
+            <td>L-2026-101</td>
+            <td>Panela cuadrada 500 g</td>
+            <td>Distribuidora El Trigal</td>
+            <td>28/10/2026</td>
+            <td>28/10/2027</td>
+            <td class="num">6</td>
+            <td><span class="marca marca-ok">Vigente</span></td>
+          </tr>
+          <tr>
+            <td>L-2026-098</td>
+            <td>Jabón en barra 300 g</td>
+            <td>Aseo Total S.A.S.</td>
+            <td>20/10/2026</td>
+            <td>—</td>
+            <td class="num">72</td>
+            <td><span class="marca marca-ok">Vigente</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="aviso aviso-info">
+      El jabón no tiene fecha de vencimiento porque no es un producto perecedero
+      (RF-25). Por eso la celda aparece con un guion y no vacía.
+    </p>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+</body>
+</html>

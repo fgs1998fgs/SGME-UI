@@ -1,0 +1,613 @@
+/* ==========================================================================
+   SGME · Hoja de estilos única
+   Sistema de Gestión Minimarket Express · Ficha 3389057
+   Evidencia GA6-220501096 · AA4-EV02
+
+   Un solo archivo para todo el proyecto. Ninguna pantalla define estilos
+   propios ni usa el atributo style en línea: todas usan estas clases.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- variables */
+:root {
+  /* Paleta */
+  --color-principal: #15616d;      /* Verde petróleo: cabecera y acciones */
+  --color-principal-osc: #0e454e;  /* Para el estado :hover */
+  --color-acento: #d98324;         /* Ámbar: resaltar lo que exige atención */
+  --color-peligro: #b3261e;        /* Rojo: errores y acciones irreversibles */
+  --color-exito: #1f7a4d;          /* Verde: confirmaciones */
+
+  --color-tinta: #1f2328;          /* Texto principal */
+  --color-tinta-suave: #5c6670;    /* Texto secundario */
+  --color-fondo: #f4f6f7;          /* Fondo de la página */
+  --color-superficie: #ffffff;     /* Tarjetas, tablas y formularios */
+  --color-borde: #d3dadd;
+
+  /* Tipografía */
+  --fuente: "Segoe UI", Roboto, Arial, sans-serif;
+  --texto-base: 1rem;
+  --texto-chico: 0.875rem;
+
+  /* Espaciado y formas */
+  --esp-1: 0.5rem;
+  --esp-2: 1rem;
+  --esp-3: 1.5rem;
+  --esp-4: 2rem;
+  --radio: 8px;
+  --sombra: 0 1px 3px rgba(31, 35, 40, 0.12);
+  --ancho-maximo: 1100px;
+}
+
+/* ------------------------------------------------------------------ base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  font-size: var(--texto-base);
+  color: var(--color-tinta);
+  background: var(--color-fondo);
+  line-height: 1.5;
+}
+
+/* El foco visible es requisito de accesibilidad: quien navega con teclado
+   tiene que saber en todo momento dónde está parado. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+/* Enlace de salto: invisible hasta que recibe el foco con el tabulador. */
+.salto {
+  position: absolute;
+  left: -9999px;
+  background: var(--color-principal);
+  color: #fff;
+  padding: var(--esp-1) var(--esp-2);
+  z-index: 10;
+}
+
+.salto:focus {
+  left: var(--esp-2);
+  top: var(--esp-1);
+}
+
+/* -------------------------------------------------------------- cabecera */
+.cabecera {
+  background: var(--color-principal);
+  color: #fff;
+  padding: var(--esp-2);
+}
+
+.cabecera-interior {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.marca-sgme {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.marca-sgme span {
+  display: block;
+  font-size: var(--texto-chico);
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.sesion {
+  font-size: var(--texto-chico);
+}
+
+.sesion a {
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ menú */
+.menu {
+  background: var(--color-principal-osc);
+}
+
+.menu ul {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 0 var(--esp-2);
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-1);
+}
+
+.menu a {
+  display: block;
+  padding: var(--esp-1) var(--esp-2);
+  color: #e6eef0;
+  text-decoration: none;
+  font-size: var(--texto-chico);
+}
+
+.menu a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* La página actual se marca con color y con un subrayado, no solo con color:
+   quien no distingue bien los colores también tiene que notarlo. */
+.menu a.activo {
+  background: var(--color-fondo);
+  color: var(--color-principal);
+  font-weight: 600;
+  border-bottom: 3px solid var(--color-acento);
+}
+
+/* ------------------------------------------------------------------ main */
+main {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: var(--esp-3) var(--esp-2) var(--esp-4);
+}
+
+.titulo-pagina {
+  margin: 0 0 var(--esp-1);
+  font-size: 1.5rem;
+}
+
+.codigo-rf {
+  margin: 0 0 var(--esp-3);
+  font-size: var(--texto-chico);
+  color: var(--color-tinta-suave);
+}
+
+/* -------------------------------------------------------------- tarjetas */
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-3);
+}
+
+.tarjeta {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: var(--esp-2);
+}
+
+.tarjeta h2 {
+  margin: 0 0 var(--esp-1);
+  font-size: var(--texto-chico);
+  font-weight: 600;
+  color: var(--color-tinta-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tarjeta .dato {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-principal);
+  line-height: 1.1;
+}
+
+.tarjeta .dato-alerta {
+  color: var(--color-acento);
+}
+
+.tarjeta a {
+  font-size: var(--texto-chico);
+  color: var(--color-principal);
+}
+
+/* ---------------------------------------------------------------- tablas */
+/* La envoltura permite el desplazamiento horizontal en celular sin que la
+   página entera se desborde. */
+.tabla-scroll {
+  overflow-x: auto;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--texto-chico);
+}
+
+.tabla caption {
+  text-align: left;
+  padding: var(--esp-2);
+  font-weight: 600;
+  color: var(--color-tinta-suave);
+}
+
+.tabla th,
+.tabla td {
+  padding: var(--esp-1) var(--esp-2);
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde);
+  white-space: nowrap;
+}
+
+.tabla thead th {
+  background: #eaeef0;
+  font-weight: 600;
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla .num {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------- filtros */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  align-items: flex-end;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: var(--esp-2);
+  margin-bottom: var(--esp-2);
+}
+
+.filtros .campo {
+  margin-bottom: 0;
+  flex: 1 1 180px;
+}
+
+/* ----------------------------------------------------------- formularios */
+.formulario {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: var(--esp-3);
+  max-width: 640px;
+}
+
+.formulario-ancho {
+  max-width: 100%;
+}
+
+.campo {
+  margin-bottom: var(--esp-2);
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: var(--texto-chico);
+  font-weight: 600;
+}
+
+.campo .ayuda {
+  display: block;
+  font-size: var(--texto-chico);
+  font-weight: 400;
+  color: var(--color-tinta-suave);
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font-family: inherit;
+  font-size: var(--texto-base);
+  color: var(--color-tinta);
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+}
+
+.campo textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.campo-casilla {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-1);
+}
+
+.campo-casilla input {
+  width: auto;
+}
+
+.campo-casilla label {
+  margin-bottom: 0;
+}
+
+/* El mensaje de error ocupa su sitio siempre, aunque esté vacío, para que la
+   página no salte cuando aparece. */
+.error {
+  display: block;
+  min-height: 1.2em;
+  margin: 0.25rem 0 0;
+  font-size: var(--texto-chico);
+  color: var(--color-peligro);
+  font-weight: 600;
+}
+
+.campo.con-error input,
+.campo.con-error select,
+.campo.con-error textarea {
+  border-color: var(--color-peligro);
+  border-width: 2px;
+}
+
+/* --------------------------------------------------------------- botones */
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-1);
+  margin-top: var(--esp-3);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-family: inherit;
+  font-size: var(--texto-base);
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-principal);
+  border: 2px solid var(--color-principal);
+  border-radius: var(--radio);
+  cursor: pointer;
+  text-decoration: none;
+  /* 44 px de alto mínimo: es el tamaño recomendado para tocar con el dedo. */
+  min-height: 44px;
+}
+
+.btn:hover {
+  background: var(--color-principal-osc);
+  border-color: var(--color-principal-osc);
+}
+
+.btn-sec {
+  color: var(--color-principal);
+  background: transparent;
+}
+
+.btn-sec:hover {
+  background: #e3ebec;
+  border-color: var(--color-principal);
+  color: var(--color-principal);
+}
+
+.btn-peligro {
+  background: var(--color-peligro);
+  border-color: var(--color-peligro);
+}
+
+.btn-peligro:hover {
+  background: #8e1d17;
+  border-color: #8e1d17;
+}
+
+.btn-chico {
+  padding: 0.3rem 0.7rem;
+  font-size: var(--texto-chico);
+  min-height: 0;
+}
+
+/* ---------------------------------------------------------------- marcas */
+.marca {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+.marca-ok {
+  color: #11543a;
+  background: #e2f3ea;
+  border-color: #a9d8c0;
+}
+
+.marca-alerta {
+  color: #7a4a0e;
+  background: #fcf0dd;
+  border-color: #eac79a;
+}
+
+.marca-mal {
+  color: #7d1a15;
+  background: #fbe6e4;
+  border-color: #e7b0ab;
+}
+
+/* ---------------------------------------------------------------- avisos */
+.aviso {
+  padding: var(--esp-2);
+  border-radius: var(--radio);
+  border-left: 5px solid;
+  margin-bottom: var(--esp-2);
+}
+
+.aviso-info {
+  background: #e6f1f3;
+  border-color: var(--color-principal);
+}
+
+.aviso-exito {
+  background: #e2f3ea;
+  border-color: var(--color-exito);
+}
+
+.aviso-peligro {
+  background: #fbe6e4;
+  border-color: var(--color-peligro);
+}
+
+/* ----------------------------------------------------------------- ficha */
+.ficha {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: var(--esp-3);
+  margin: 0 0 var(--esp-2);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--esp-1) var(--esp-3);
+}
+
+.ficha dt {
+  font-weight: 600;
+  color: var(--color-tinta-suave);
+  font-size: var(--texto-chico);
+}
+
+.ficha dd {
+  margin: 0;
+}
+
+/* ------------------------------------------------------- caja de ingreso */
+.caja-centro {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--esp-2);
+}
+
+.caja-ingreso {
+  width: 100%;
+  max-width: 420px;
+}
+
+.caja-ingreso .marca-sgme {
+  color: var(--color-principal);
+  text-align: center;
+  margin-bottom: var(--esp-3);
+}
+
+.caja-ingreso .marca-sgme span {
+  color: var(--color-tinta-suave);
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------- pie */
+.pie {
+  border-top: 1px solid var(--color-borde);
+  background: var(--color-superficie);
+  padding: var(--esp-2);
+}
+
+.pie p {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  font-size: var(--texto-chico);
+  color: var(--color-tinta-suave);
+  text-align: center;
+}
+
+/* ------------------------------------------------------------- utilidades */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fila-botones {
+  display: flex;
+  gap: var(--esp-1);
+  flex-wrap: wrap;
+  margin-bottom: var(--esp-2);
+}
+
+/* ------------------------------------------------------------- responsivo */
+/* A 640 px el menú pasa a ocupar todo el ancho y los botones se estiran, que
+   es lo que hace usable la pantalla con el pulgar. */
+@media (max-width: 640px) {
+  .cabecera-interior {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--esp-1);
+  }
+
+  /* En celular el menú NO se apila: nueve opciones apiladas ocupaban toda la
+     primera pantalla y obligaban a bajar para ver el contenido. Se convierte
+     en una tira que se desplaza en horizontal, de modo que el panel queda
+     visible apenas se abre la página. */
+  .menu ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0;
+    padding: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .menu li {
+    flex: 0 0 auto;
+  }
+
+  .menu a {
+    padding: 0.75rem var(--esp-2);
+    white-space: nowrap;
+  }
+
+  main {
+    padding: var(--esp-2) var(--esp-1) var(--esp-3);
+  }
+
+  .formulario {
+    padding: var(--esp-2);
+  }
+
+  .acciones .btn {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .ficha {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .ficha dd {
+    margin-bottom: var(--esp-1);
+  }
+}
+
+/* ------------------------------------------------------------- impresión */
+@media print {
+  .cabecera,
+  .menu,
+  .acciones,
+  .pie {
+    display: none;
+  }
+
+  body {
+    background: #fff;
+  }
+}

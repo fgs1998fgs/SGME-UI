@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar contraseña · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="caja-centro">
+    <div class="caja-ingreso">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+
+      <h1 class="titulo-pagina">Recuperar contraseña</h1>
+      <p class="codigo-rf">RF-05 · RF-06</p>
+
+      <form class="formulario" id="frm-recuperar" novalidate>
+        <p class="aviso aviso-info">
+          Escriba el documento con el que ingresa al sistema. Si está registrado,
+          le llegará la instrucción al correo asociado a su cuenta.
+        </p>
+
+        <div class="campo" id="campo-documento">
+          <label for="documento">Número de documento</label>
+          <input type="text" id="documento" name="documento" inputmode="numeric">
+          <p class="error" aria-live="polite" id="error-documento"></p>
+        </div>
+
+        <div class="acciones">
+          <button type="submit" class="btn">Enviar instrucción</button>
+          <a class="btn btn-sec" href="ingreso.html">Volver al ingreso</a>
+        </div>
+      </form>
+
+      <p class="aviso aviso-exito" id="confirmacion" role="alert" tabindex="-1" hidden>
+        Si el documento está registrado, se envió la instrucción para restablecer
+        la contraseña. Revise su correo.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    // RF-06: la confirmación es siempre la misma, exista o no el documento.
+    // Decir «ese documento no existe» le confirmaría a un atacante qué
+    // documentos sí están registrados.
+    const frm = document.getElementById('frm-recuperar');
+    const campo = document.getElementById('campo-documento');
+    const entrada = document.getElementById('documento');
+    const error = document.getElementById('error-documento');
+    const confirmacion = document.getElementById('confirmacion');
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      const valor = entrada.value.trim();
+
+      if (valor === '') {
+        campo.classList.add('con-error');
+        error.textContent = 'Escriba su número de documento';
+        confirmacion.hidden = true;
+        return;
+      }
+      if (!/^\d{6,15}$/.test(valor)) {
+        campo.classList.add('con-error');
+        error.textContent = 'El documento debe tener entre 6 y 15 dígitos';
+        confirmacion.hidden = true;
+        return;
+      }
+
+      campo.classList.remove('con-error');
+      error.textContent = '';
+      frm.hidden = true;
+      confirmacion.hidden = false;      // RF-06: respuesta única
+    });
+  </script>
+</body>
+</html>

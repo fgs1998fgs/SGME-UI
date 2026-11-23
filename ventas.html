@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventas · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html" class="activo" aria-current="page">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Consulta de ventas</h1>
+    <p class="codigo-rf">RF-42 · RF-43 · RF-44</p>
+
+    <form class="filtros" id="frm-filtros">
+      <div class="campo">
+        <label for="desde">Desde</label>
+        <input type="date" id="desde" name="desde" value="2026-11-19">
+      </div>
+      <div class="campo">
+        <label for="hasta">Hasta</label>
+        <input type="date" id="hasta" name="hasta" value="2026-11-21">
+      </div>
+      <div class="campo">
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado">
+          <option value="">Todos</option>
+          <option value="activa">Activa</option>
+          <option value="anulada">Anulada</option>
+        </select>
+      </div>
+      <div class="campo">
+        <button type="submit" class="btn">Consultar</button>
+      </div>
+    </form>
+
+    <p class="error" aria-live="polite" id="error-rango"></p>
+
+    <p class="aviso aviso-info" id="sin-resultados" hidden>
+      No hay ventas en el periodo consultado.
+    </p>
+
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>Ventas del periodo</caption>
+        <thead>
+          <tr>
+            <th scope="col">Factura</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cajero</th>
+            <th scope="col" class="num">Total</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo-ventas">
+          <tr data-fecha="2026-11-21" data-estado="activa" data-total="37500">
+            <td>FV-000188</td>
+            <td>21/11/2026</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 37.500</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><a class="btn btn-sec btn-chico" href="detalle-venta.html">Ver</a></td>
+          </tr>
+          <tr data-fecha="2026-11-21" data-estado="activa" data-total="12900">
+            <td>FV-000187</td>
+            <td>21/11/2026</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 12.900</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><a class="btn btn-sec btn-chico" href="detalle-venta.html">Ver</a></td>
+          </tr>
+          <tr data-fecha="2026-11-21" data-estado="anulada" data-total="7300">
+            <td>FV-000186</td>
+            <td>21/11/2026</td>
+            <td>Marta Gil</td>
+            <td class="num">$ 7.300</td>
+            <td><span class="marca marca-mal">Anulada</span></td>
+            <td><a class="btn btn-sec btn-chico" href="detalle-venta.html">Ver</a></td>
+          </tr>
+          <tr data-fecha="2026-11-20" data-estado="activa" data-total="64150">
+            <td>FV-000185</td>
+            <td>20/11/2026</td>
+            <td>Marta Gil</td>
+            <td class="num">$ 64.150</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><a class="btn btn-sec btn-chico" href="detalle-venta.html">Ver</a></td>
+          </tr>
+          <tr data-fecha="2026-11-20" data-estado="activa" data-total="21700">
+            <td>FV-000184</td>
+            <td>20/11/2026</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 21.700</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><a class="btn btn-sec btn-chico" href="detalle-venta.html">Ver</a></td>
+          </tr>
+          <tr data-fecha="2026-11-19" data-estado="anulada" data-total="15200">
+            <td>FV-000183</td>
+            <td>19/11/2026</td>
+            <td>Luis Pardo</td>
+            <td class="num">$ 15.200</td>
+            <td><span class="marca marca-mal">Anulada</span></td>
+            <td><a class="btn btn-sec btn-chico" href="detalle-venta.html">Ver</a></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="3">Total del periodo consultado</th>
+            <td class="num" id="total-periodo">$ 0</td>
+            <td colspan="2"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    // RF-42 y RF-44: filtra por rango de fechas y estado, y suma el total de
+    // lo que queda visible. Las ventas anuladas no suman: no entraron a caja.
+    const frm = document.getElementById('frm-filtros');
+    const filas = document.querySelectorAll('#cuerpo-ventas tr');
+    const totalPeriodo = document.getElementById('total-periodo');
+    const sinResultados = document.getElementById('sin-resultados');
+    const errorRango = document.getElementById('error-rango');
+
+    function consultar() {
+      const desde = document.getElementById('desde').value;
+      const hasta = document.getElementById('hasta').value;
+      const estado = document.getElementById('estado').value;
+
+      if (desde && hasta && desde > hasta) {
+        errorRango.textContent = 'La fecha inicial no puede ser posterior a la final';
+        return;
+      }
+      errorRango.textContent = '';
+
+      let total = 0;
+      let visibles = 0;
+
+      filas.forEach(function (fila) {
+        const fecha = fila.getAttribute('data-fecha');
+        const est = fila.getAttribute('data-estado');
+        const dentro = (!desde || fecha >= desde) && (!hasta || fecha <= hasta);
+        const coincide = estado === '' || est === estado;
+        const mostrar = dentro && coincide;
+
+        fila.hidden = !mostrar;
+        if (mostrar) {
+          visibles++;
+          if (est === 'activa') {
+            total += parseInt(fila.getAttribute('data-total'), 10);
+          }
+        }
+      });
+
+      totalPeriodo.textContent = '$ ' + total.toLocaleString('es-CO');
+      sinResultados.hidden = visibles > 0;
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      consultar();
+    });
+
+    consultar();
+  </script>
+</body>
+</html>

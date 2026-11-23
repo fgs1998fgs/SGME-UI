@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuarios · SGME</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <p class="marca-sgme">SGME <span>Sistema de Gestión Minimarket Express</span></p>
+      <p class="sesion">Ana Torres · Administradora · <a href="ingreso.html">Cerrar sesión</a></p>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menú principal">
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="nueva-venta.html">Nueva venta</a></li>
+      <li><a href="ventas.html">Ventas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="lotes.html">Lotes</a></li>
+      <li><a href="proveedores.html">Proveedores</a></li>
+      <li><a href="usuarios.html" class="activo" aria-current="page">Usuarios</a></li>
+      <li><a href="reporte-vencimientos.html">Reportes</a></li>
+      <li><a href="perfil.html">Mi perfil</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <h1 class="titulo-pagina">Usuarios del sistema</h1>
+    <p class="codigo-rf">RF-36 · RF-37 · RF-38</p>
+
+    <form class="formulario" id="frm-usuario" novalidate>
+      <h2>Registrar usuario</h2>
+
+      <div class="campo" id="campo-documento">
+        <label for="documento">Número de documento
+          <span class="ayuda">Es el dato con el que la persona inicia sesión</span>
+        </label>
+        <input type="text" id="documento" name="documento" inputmode="numeric">
+        <p class="error" aria-live="polite" id="error-documento"></p>
+      </div>
+
+      <div class="campo" id="campo-nombre">
+        <label for="nombre">Nombres</label>
+        <input type="text" id="nombre" name="nombre">
+        <p class="error" aria-live="polite" id="error-nombre"></p>
+      </div>
+
+      <div class="campo" id="campo-apellido">
+        <label for="apellido">Apellidos</label>
+        <input type="text" id="apellido" name="apellido">
+        <p class="error" aria-live="polite" id="error-apellido"></p>
+      </div>
+
+      <div class="campo" id="campo-rol">
+        <label for="rol">Rol</label>
+        <select id="rol" name="rol">
+          <option value="">Seleccione el rol</option>
+          <option value="cajero">Cajero</option>
+          <option value="administrador">Administrador</option>
+        </select>
+        <p class="error" aria-live="polite" id="error-rol"></p>
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn">Registrar usuario</button>
+      </div>
+    </form>
+
+    <p class="aviso aviso-exito" id="exito" role="alert" tabindex="-1" hidden>
+      El usuario quedó registrado. Se le enviará la contraseña inicial.
+    </p>
+
+    <h2>Cuentas registradas</h2>
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <caption>La contraseña no se muestra en ninguna pantalla (RF-38)</caption>
+        <thead>
+          <tr>
+            <th scope="col">Documento</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Registro</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1024595068</td>
+            <td>Ana Torres</td>
+            <td>Administradora</td>
+            <td>12/01/2026</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><button type="button" class="btn btn-sec btn-chico">Desactivar</button></td>
+          </tr>
+          <tr>
+            <td>1098765432</td>
+            <td>Luis Pardo</td>
+            <td>Cajero</td>
+            <td>03/03/2026</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><button type="button" class="btn btn-sec btn-chico">Desactivar</button></td>
+          </tr>
+          <tr>
+            <td>1076543210</td>
+            <td>Marta Gil</td>
+            <td>Cajera</td>
+            <td>18/06/2026</td>
+            <td><span class="marca marca-ok">Activa</span></td>
+            <td><button type="button" class="btn btn-sec btn-chico">Desactivar</button></td>
+          </tr>
+          <tr>
+            <td>1033221144</td>
+            <td>Óscar Benítez</td>
+            <td>Cajero</td>
+            <td>05/02/2026</td>
+            <td><span class="marca marca-mal">Inactiva</span></td>
+            <td><button type="button" class="btn btn-sec btn-chico">Activar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="aviso aviso-info">
+      La cuenta de Óscar Benítez está inactiva: no puede ingresar, pero sus
+      ventas anteriores siguen en el historial (RF-37).
+    </p>
+  </main>
+
+  <footer class="pie">
+    <p>SGME · Ficha 3389057 · Daniel Felipe González Sabogal · Datos ficticios</p>
+  </footer>
+
+  <script>
+    const DOCUMENTOS_USADOS = ['1024595068', '1098765432', '1076543210', '1033221144'];
+
+    const frm = document.getElementById('frm-usuario');
+    const exito = document.getElementById('exito');
+
+    function marcar(idCampo, idError, mensaje) {
+      document.getElementById(idCampo).classList.toggle('con-error', mensaje !== '');
+      document.getElementById(idError).textContent = mensaje;
+      return mensaje === '';
+    }
+
+    frm.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      exito.hidden = true;
+
+      const documento = document.getElementById('documento').value.trim();
+      let ok = true;
+
+      // RF-36: el documento identifica la cuenta, así que no se puede repetir.
+      if (documento === '') {
+        ok = marcar('campo-documento', 'error-documento', 'El documento es obligatorio') && ok;
+      } else if (!/^\d{6,15}$/.test(documento)) {
+        ok = marcar('campo-documento', 'error-documento',
+                    'El documento debe tener entre 6 y 15 dígitos') && ok;
+      } else if (DOCUMENTOS_USADOS.indexOf(documento) !== -1) {
+        ok = marcar('campo-documento', 'error-documento',
+                    'Ese documento ya tiene una cuenta en el sistema') && ok;
+      } else {
+        marcar('campo-documento', 'error-documento', '');
+      }
+
+      ok = marcar('campo-nombre', 'error-nombre',
+                  document.getElementById('nombre').value.trim() === ''
+                    ? 'Escriba los nombres' : '') && ok;
+      ok = marcar('campo-apellido', 'error-apellido',
+                  document.getElementById('apellido').value.trim() === ''
+                    ? 'Escriba los apellidos' : '') && ok;
+      ok = marcar('campo-rol', 'error-rol',
+                  document.getElementById('rol').value === ''
+                    ? 'Seleccione el rol' : '') && ok;
+
+      if (!ok) return;
+
+      exito.hidden = false;
+      exito.scrollIntoView({ block: 'nearest' });
+      frm.reset();
+    });
+  </script>
+</body>
+</html>
